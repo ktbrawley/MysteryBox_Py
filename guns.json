@@ -1,0 +1,19 @@
+{
+ "guns": [
+     {
+         "name": "KN-44"
+     },
+     {
+        "name": "ICR-1"
+     },
+     {
+        "name": "RPK"
+     },
+     {
+        "name": "Shevia"
+     },
+     {
+        "name": "Teddy Bear"
+     }
+ ]   
+}
