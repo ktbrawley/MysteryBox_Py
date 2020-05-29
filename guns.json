@@ -1,19 +1,63 @@
 {
- "guns": [
-     {
+   "guns": [{
          "name": "KN-44"
-     },
-     {
-        "name": "ICR-1"
-     },
-     {
-        "name": "RPK"
-     },
-     {
-        "name": "Shevia"
-     },
-     {
-        "name": "Teddy Bear"
-     }
- ]   
+      },
+      {
+         "name": "ICR-1"
+      },
+      {
+         "name": "RPK"
+      },
+      {
+         "name": "Shevia"
+      },
+      {
+         "name": "Teddy Bear"
+      },
+      {
+         "name": "Bootlegger"
+      },
+      {
+         "name": "M8A7"
+      },
+      {
+         "name": "VMP"
+      },
+      {
+         "name": "Ray Gun Mark 2"
+      },
+      {
+         "name": "Argus"
+      },
+      {
+         "name": "BRM"
+      },
+      {
+         "name": "48 Dredge"
+      },
+      {
+         "name": "Dingo"
+      },
+      {
+         "name": "Drakon"
+      },
+      {
+         "name": "SVG-100"
+      },
+      {
+         "name": "Annihilator"
+      },
+      {
+         "name": "Bloodhound"
+      },
+      {
+         "name": "SVG-100"
+      },
+      {
+         "name": "Ray Gun Mark 2"
+      },
+      {
+         "name": "Wunderwaffe"
+      }
+   ]
 }
