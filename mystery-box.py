@@ -22,6 +22,7 @@ def readButtonState(serialPort):
     input = serialPort.readline(100)
     inputStr = input.decode()
     inputStr = inputStr.rstrip()
+    inputStr.replace("\\x0", "")
     if (inputStr != ''):
         buttonState = int(inputStr)
         return buttonState
@@ -66,8 +67,7 @@ def readAvailableSerialPorts():
     myports = [tuple(p) for p in list(serial.tools.list_ports.comports())]
     port: tuple
     try:
-        port = [port for port in myports if 'COM4' in port][0]
-        port = [port for port in myports if 'COM6' in port][0]
+        port = [port for port in myports if 'ttyACM0' or 'COM4' or 'COM6' in port][1]
         print(port)
     except Exception:
         print('No available connections were detected')
@@ -77,7 +77,7 @@ def readAvailableSerialPorts():
 
 def init(availableConnection):
     global serialPort
-    serialPort = serial.Serial(availableConnection, 9600, timeout=1)
+    serialPort = serial.Serial(availableConnection[0], 9600, timeout=1)
     time.sleep(2)
     print('====Welcome to Mystery Box Generator=====')
     print()
@@ -103,7 +103,7 @@ gunName = ""
 while quitProgram == False:
     buttonPressed = readButtonState(serialPort)
 
-    if (buttonPressed):
+    if (buttonPressed == 0):
         if (spinCount >= spinLimit):
             gun = spawnTeddy()
         else:
