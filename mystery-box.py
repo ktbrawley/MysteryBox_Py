@@ -15,8 +15,6 @@ guns = []
 serialPort = None
 
 # Helper methods
-
-
 def readButtonState(serialPort):
     serialPort.flush()  # it is buffering. required to get the data out *now*
     input = serialPort.readline(100)
@@ -25,7 +23,7 @@ def readButtonState(serialPort):
     inputStr.replace("\\x0", "")
     if (inputStr != ''):
         buttonState = int(inputStr)
-        return buttonState
+        return buttonState 
 
 
 def loadGunsFromJson(jsonPath):
@@ -74,14 +72,18 @@ def readAvailableSerialPorts():
         port = None
     return port
 
+def writeBoxGunResultToSerialBuffer(gunName):
+    encoded = gunName.encode()
+    serialPort.write(encoded)
+    time.sleep(2)
 
-def init(availableConnection):
+
+def init(availableConnection): 
     global serialPort
     serialPort = serial.Serial(availableConnection[0], 9600, timeout=1)
     time.sleep(2)
     print('====Welcome to Mystery Box Generator=====')
     print()
-    playSound(f"{sfx_path}/round-begin.wav")
     global guns
     guns = loadGunsFromJson('./guns.json')
     print('Would you like to spin the box?: (Press button to continue)')
@@ -100,24 +102,20 @@ if (availableConnection == None):
 init(availableConnection)
 spinLimit = spinLimit()
 gunName = ""
-while quitProgram == False:
+while quitProgram == False and gunName != "Teddy Bear":
     buttonPressed = readButtonState(serialPort)
 
     if (buttonPressed == 0):
         if (spinCount >= spinLimit):
             gun = spawnTeddy()
+            gunName = gun['name']
+            playSound(f"{sfx_path}./teddy.wav")
+            quit()
         else:
             gun = spinMysteryBox(True)
             gunName = gun['name']
             spinCount += 1
             while gunName == prevGun:
                 spinMysteryBox(False)
-
-        print(f"You've gained the {gunName}")
-        print()
-
-        if (gunName == "Teddy Bear"):
-            playSound(f"{sfx_path}./teddy.wav")
-            quit()
-        else:
+            writeBoxGunResultToSerialBuffer(gunName)
             print('Would you like to spin the box?: (Press button to continue)')
