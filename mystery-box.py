@@ -1,14 +1,16 @@
 # External Libs
 import simpleaudio as sa
+import simpleaudio.functionchecks as fc
 import json
 import random
 import serial
 import time
 import sys
+import os
 
 # Global Variables
 quitProgram = False
-sfx_path = "./sound-effects"
+sfx_path = f"{os.getcwd()}/sound-effects"
 prevGun = ""
 spinCount = 0
 guns = []
@@ -51,15 +53,6 @@ def spinMysteryBox(playAudio):
 def spinLimit():
     return random.randrange(4, 9)
 
-
-def spawnTeddy():
-    teddy = None
-    for gun in guns:
-        if (gun['name'] == "Teddy Bear"):
-            teddy = gun
-            return teddy
-
-
 def readAvailableSerialPorts():
     import serial.tools.list_ports
     myports = [tuple(p) for p in list(serial.tools.list_ports.comports())]
@@ -88,6 +81,8 @@ def init(availableConnection):
     guns = loadGunsFromJson('./guns.json')
     print('Would you like to spin the box?: (Press button to continue)')
 
+def checkSoundConfig():
+    fc.LeftRightCheck.run()
 
 def quit():
     global quitProgram
@@ -102,14 +97,13 @@ if (availableConnection == None):
 init(availableConnection)
 spinLimit = spinLimit()
 gunName = ""
-while quitProgram == False and gunName != "Teddy Bear":
+while quitProgram == False:
     buttonPressed = readButtonState(serialPort)
-
     if (buttonPressed == 0):
         if (spinCount >= spinLimit):
-            gun = spawnTeddy()
-            gunName = gun['name']
-            playSound(f"{sfx_path}./teddy.wav")
+            gunName = "Teddy Bear"
+            playSound(f"{sfx_path}/teddy.wav")
+            writeBoxGunResultToSerialBuffer(gunName)
             quit()
         else:
             gun = spinMysteryBox(True)
