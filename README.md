@@ -1,7 +1,5 @@
 # MysteryBox_Py
 
- A beginner's implementation of python language to recreate the iconic 'Mystery box' from the 'Call of Duty: Zombies' series.
- 
  This repo includes a python script, and accompanying arduino script for controlling:
  
  - Box lid servo
