@@ -1,6 +1,5 @@
 # External Libs
-import simpleaudio as sa
-import simpleaudio.functionchecks as fc
+import services.audio_player as audio_player
 import json
 import random
 import serial
@@ -36,16 +35,10 @@ def loadGunsFromJson(jsonPath):
         return data['guns']
 
 
-def playSound(path):
-    wave_obj = sa.WaveObject.from_wave_file(f"{path}")
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
-
-
 def spinMysteryBox(playAudio):
     index = random.randrange(0, len(guns))
     if (playAudio):
-        playSound(f"{sfx_path}/mystery-box.wav")
+        audio_player.play(f"{sfx_path}/mystery-box.wav")
     global prevGun
     prevGun = guns[index]['name']
     print()
@@ -81,13 +74,10 @@ def init(availableConnection):
     time.sleep(2)
     print('====Welcome to Mystery Box Generator=====')
     print()
+    audio_player.init()
     global guns
     guns = loadGunsFromJson('./guns.json')
     print('Would you like to spin the box?: (Press button to continue)')
-
-
-def checkSoundConfig():
-    fc.LeftRightCheck.run()
 
 
 def quit():
@@ -109,7 +99,7 @@ try:
         if (buttonPressed == 0):
             if (spinCount >= spinLimit):
                 gunName = "Teddy Bear"
-                playSound(f"{sfx_path}/teddy.wav")
+                audio_player.play(f"{sfx_path}/teddy.wav")
                 writeBoxGunResultToSerialBuffer(gunName)
 
                 spinLimit = random.randrange(4, 9)
